@@ -23,3 +23,4 @@ const BlogSchema = new Schema(
     timestamps: true,
   }
 );
+export default models.Blog || model("Blog", BlogSchema);
