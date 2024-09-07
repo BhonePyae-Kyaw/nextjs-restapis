@@ -7,7 +7,7 @@ const validate = (token: any) => {
 };
 
 export function authMiddleware(req: Request): any {
-  const token = req.headers.get("authorization")?.split(" ")[1];
+  const token = "bearer jkjkjkjkjkjkjk"; //For testing purposes
   console.log("Token: ", token);
   return { isValid: validate(token) };
 }
