@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import clientPromise from "./mongodbClient";
 export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
@@ -19,8 +20,28 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const user = { id: "1", name: "J Smith", email: " ", image: " " };
-        return user;
+        const client = await clientPromise;
+        const db = client.db("next14-mongodb-restapis") as any;
+
+        const user = await db.collection("users").findOne({
+          email: credentials?.email,
+        });
+
+        const bcrypt = require("bcrypt");
+        const isValid = await bcrypt.compare(
+          credentials?.password,
+          user?.password
+        );
+
+        if (isValid) {
+          return {
+            id: user?._id,
+            email: user?.email,
+            username: user?.username,
+          };
+        }
+
+        return null;
       },
     }),
   ],

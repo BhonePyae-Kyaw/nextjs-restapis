@@ -24,6 +24,10 @@ const formSchema = z
       })
       .email("This is not a valid email."),
 
+    username: z.string().min(1, {
+      message: "This field has to be filled.",
+    }),
+
     password: z.string().min(8, {
       message: "Password has to be 8 characters long.",
     }),
@@ -75,6 +79,22 @@ const RegisterForm = () => {
               </FormControl>
               <FormDescription>
                 Email you want to use for your account.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="User Name" {...field} />
+              </FormControl>
+              <FormDescription>
+                Username you want to use for your account.
               </FormDescription>
               <FormMessage />
             </FormItem>

@@ -20,7 +20,7 @@ const connect = async () => {
       dbName: "next14-mongodb-restapis",
       bufferCommands: true,
     });
-    console.log("Database connected. haha");
+    console.log("Database connected.");
   } catch (error: any) {
     console.log("Error", error);
     throw new Error("Database connection failed", error);
